@@ -5,7 +5,6 @@ from scipy import io
 from metrics.utils import salicon_gtspath, osie_gtspath, score_all_gts, mit_gtspath, mit_imgspath, isun_gtspath, \
     isun_imgspath
 
-
 def score_human(source, metrics, ):
     source = source.lower()
     print(f'comptering {source} dataset in {metrics}')

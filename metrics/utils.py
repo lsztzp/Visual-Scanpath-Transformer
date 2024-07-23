@@ -6,19 +6,20 @@ from PIL import Image
 from dtaidistance import dtw_ndim
 from metrics.python.H_MM_Distance_compute import H_MM_Distance
 from metrics.python.ScanMatch import ScanMatch
-from metrics.python.scanmatch_vqa import ScanMatchwithDuration, ScanMatchwithoutDuration
+
+root="/data/qmengyu/demo/01-ScanPath-Dataset" #root path
 
 ScanMatchInfo_salicon = scio.loadmat('metrics/python/SALICON_ScanMatchInfo.mat')['ScanMatchInfo']
 ScanMatchInfo_osie = scio.loadmat('metrics/python/OSIE_ScanMatchInfo.mat')['ScanMatchInfo']
 
-salicon_gtspath = '/data/qmengyu/01-Datasets/01-ScanPath-Dataset/SALICON/gt_fixations_test/'
-osie_gtspath = '/data/qmengyu/01-Datasets/01-ScanPath-Dataset/OSIE/gt_fixations_test/'
+salicon_gtspath = root + '/SALICON/gt_fixations_test/'
+osie_gtspath = root + '/OSIE/gt_fixations_test/'
 
-mit_gtspath = "/data/qmengyu/01-Datasets/01-ScanPath-Dataset/MIT/gt_fixations/"
-mit_imgspath = "/data/qmengyu/01-Datasets/01-ScanPath-Dataset/MIT/images/all/"
+mit_gtspath = root + "/MIT/gt_fixations/"
+mit_imgspath = root + "/MIT/images/all/"
 
-isun_gtspath = "/data/qmengyu/01-Datasets/01-ScanPath-Dataset/iSUN/gt_fixations/"
-isun_imgspath = "/data/qmengyu/01-Datasets/01-ScanPath-Dataset/iSUN/images/"
+isun_gtspath = root + "/iSUN/gt_fixations/"
+isun_imgspath = root + "/iSUN/images/"
 
 
 def score_seq(pre, gt, dataset_name, metrics=('scanmatch', 'tde', 'mutimatch', 'dtw')):

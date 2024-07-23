@@ -3,20 +3,20 @@ from torch import optim
 from modules.transformer import Transformer
 from modules.vgg import VGG_Gen
 import torchvision
-import time
 from utils.utils import *
 from mmcv import Config, DictAction
-
 from modules.salgan import Feature_Extrator
 from torchvision.transforms import transforms
 
-parser = argparse.ArgumentParser(description='Train a model or Inference')
-parser.add_argument('--config', default='./model_weights/best_model_and_config/config.py', help='config.py path')
-parser.add_argument('--work_dir', default='test', help='path to save logs and weights')
+parser = argparse.ArgumentParser(description='Inference')
+# parser.add_argument('--config', default='./model_weights/best_model_and_config/config.py', help='config.py path')
+parser.add_argument('--config', default='config.py', help='config.py path')
+parser.add_argument('--checkpoint_path', default='./model_weights/ep85.pth.tar', help='checkpoint path')
+parser.add_argument('--in_Dir', default='./demo/in_images/', help='path to input')
+parser.add_argument('--out_Dir', default='./demo/out_images/', help='path to ouput')
+parser.add_argument('--num_generate', default=1, help='the number to generate for each image')
 parser.add_argument('--device', default='cuda:0', help='cuda:n')
-parser.add_argument('--wo_train', action="store_true", help='w/o train the model')
-parser.add_argument('--wo_inference', action="store_true", help='w/o inference to scanpath results ?')
-parser.add_argument('--wo_score', action="store_true", help='w/o score scanpath results ?')
+parser.add_argument('--plot', default=True, help="if plot the results")
 parser.add_argument('--options', nargs='+', action=DictAction, help='arguments in dict')
 
 args = parser.parse_args()
@@ -52,18 +52,10 @@ model = Transformer(cfg.feature_dim,
                     cfg.num_gauss,
                     cfg.eos).to(cfg.device)
 
-if cfg.backbone_grad:
-    optimizer = optim.AdamW([{'params': model.parameters()},
-                {'params': feature_extrator.parameters(), 'lr': cfg.backbone_lr}], lr=cfg.lr, weight_decay=cfg.weight_decay)
-else:
-    for p in feature_extrator.parameters():
-        p.requires_grad = False
-    optimizer = optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
-
-if cfg.reload_path: # finetune or score: load checkpiont from file reload_path
-    epoch_start, model, optimizer = loadCheckpoint(model=model, optimizer=optimizer, checkpointPath=cfg.reload_path)
-else: # resume from break-point: reload checkpoint from dir workdir
-    epoch_start, model, optimizer = loadCheckpoint(model=model, optimizer=optimizer, work_dir=cfg.work_dir)
+print(f"Loading {cfg.checkpoint_path}...")
+checkpoint = torch.load(cfg.checkpoint_path, map_location='cpu')
+model.load_state_dict(checkpoint['model'])
+model.eval()
 
 
 if __name__=="__main__":
@@ -72,14 +64,11 @@ if __name__=="__main__":
     ])
     hw_t = get_hw_t(cfg.action_map_size[0], cfg.action_map_size[1]).to(cfg.device)
 
-    input_path="./01-Datasets/in_images/"
-    output_path="./01-Datasets/out_images/"
-
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-    for filename in os.listdir(input_path):
+    if not os.path.exists(args.out_Dir):
+        os.makedirs(args.out_Dir)
+    for filename in os.listdir(args.in_Dir):
         print(filename)
-        path = input_path + filename
+        path = args.in_Dir + filename
 
         img = Image.open(path).convert('RGB')
         img_size = torch.Tensor([img.height, img.width])
@@ -92,8 +81,8 @@ if __name__=="__main__":
         enc_inputs = feature_extrator(imgs, None)
         enc_outputs, enc_self_attns = model.encoder(enc_inputs, None)
         val_batch_size = 1
-        scanpaths = torch.zeros((10, 18, 2))
-        for i in range(1):    #scanpath number to generate
+        scanpaths = torch.zeros((args.num_generate, 18, 2))
+        for i in range(args.num_generate):    #scanpath number to generate
             enc_inputs = feature_extrator(imgs, None)
             enc_outputs, enc_self_attns = model.encoder(enc_inputs, None)
 
@@ -122,5 +111,14 @@ if __name__=="__main__":
 
             scanpaths[i] = dec_inputs[0][1:]
 
-        save_path = output_path + filename.split('.')[0] + '.pck'
-        torch.save(scanpaths, save_path)
+        if args.plot:
+            save_path = ""
+            # save_path = args.out_Dir + filename.split('.')[0] + '.jpg'
+            for i in range(args.num_generate):
+                plot_scanpaths(scanpaths[i], img_path=str(path), save_path=save_path,img_height=192,img_witdth=256)
+        else:
+            save_path = args.out_Dir + filename.split('.')[0] + '.pck'
+            torch.save(scanpaths, save_path)
+
+    print('done')
+

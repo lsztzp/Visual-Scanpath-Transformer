@@ -5,12 +5,12 @@ import random
 import os
 from PIL import Image
 import torch
-from torch import nn
-
+import cv2
+import matplotlib.cm as cm
+import matplotlib
 from torch.optim.lr_scheduler import LambdaLR, StepLR, MultiStepLR, CosineAnnealingLR, ReduceLROnPlateau, CyclicLR, \
     ExponentialLR, CosineAnnealingWarmRestarts
 from warmup_scheduler import GradualWarmupScheduler
-
 
 # 按比例填充图片
 def pad_sal(sal, target_w, target_h, pad_value=0):
@@ -224,3 +224,34 @@ def normalize_tensor(tensor, rescale=False, zero_fill=False):
     print("Zero tensor")
     tensor.fill_(1. / tensor.numel())
     return tensor
+
+def plot_scanpaths(scanpaths, img_path, save_path="", img_height=192, img_witdth=256):
+    # Plot predicted scanpaths
+    # this code is on the basis of ScanGAN https://github.com/DaniMS-ZGZ/ScanGAN360/
+
+    image = cv2.resize(matplotlib.image.imread(img_path), (img_witdth, img_height))
+    plt.imshow(image)
+    points_x = scanpaths[:, 1]
+    points_y = scanpaths[:, 0]
+
+    colors = cm.rainbow(np.linspace(0, 1, len(points_x)))
+
+    previous_point = None
+    for num, x, y, c in zip(range(0, len(points_x)), points_x, points_y, colors):
+        x *= img_witdth
+        y *= img_height
+        markersize = 14.
+        linewidth = 6.
+        if previous_point is not None:
+            plt.plot([x, previous_point[0]], [y, previous_point[1]], color='blue', linewidth=linewidth, alpha=0.35)
+        previous_point = [x, y]
+        plt.plot(x, y, marker='o', markersize=markersize, color=c, alpha=.8)
+    plt.axis('off')
+    # plt.show(bbox_inches='tight', pad_inches=-0.1)
+    # plt.margins(-0.1, -0.1)
+    plt.margins(0, 0)
+    if not save_path:
+        plt.show(bbox_inches='tight', pad_inches=-0.1)
+    else:
+        plt.savefig(str(save_path), bbox_inches='tight', pad_inches=-0.1, dpi=1000)
+    plt.cla()

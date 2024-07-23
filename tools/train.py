@@ -49,10 +49,6 @@ class Trainer:
                     loss_fixation = torch.mean(-torch.log(probs))
 
                     loss_fixations_all.append(loss_fixation.unsqueeze(0))
-                    # if cfg.eos: eos_gt = torch.arange(cfg.max_length).expand(cfg.train_batch_size, cfg.max_length). \ ge((
-                    # valid_lens[:, seq_n] - 1).unsqueeze(-1).expand(cfg.train_batch_size, cfg.max_length)).flatten().to(
-                    # cfg.device) loss_len = criterion(eos.reshape(-1, 2), eos_gt.long()) loss_len_all.append(
-                    # loss_len.unsqueeze(0))
 
                 loss_fixations = torch.cat(loss_fixations_all, dim=0).mean()
                 if self.eos:

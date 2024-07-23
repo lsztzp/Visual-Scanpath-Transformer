@@ -1,7 +1,5 @@
 import torch
 import torchvision.models as models
-# 如果联网使用pytorch的预训练模型,
-# 将pretrained设置为True, 就会自动下载vgg19的模型放在本地缓存中.
 from torch import nn
 
 class VGG_Gen(nn.Module):

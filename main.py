@@ -15,11 +15,11 @@ from datetime import datetime
 
 parser = argparse.ArgumentParser(description='Train a model or Inference')
 parser.add_argument('--config', default='config.py', help='config.py path')
-parser.add_argument('--work_dir', default='test', help='path to save logs and weights')
+parser.add_argument('--work_dir', default='Baseline', help='path to save logs and weights')
 parser.add_argument('--device', default='cuda:0', help='cuda:n')
-parser.add_argument('--wo_train', action="store_true", help='w/o train the model')
-parser.add_argument('--wo_inference', action="store_true", help='w/o inference to scanpath results ?')
-parser.add_argument('--wo_score', action="store_true", help='w/o score scanpath results ?')
+parser.add_argument('--wo_train', action="store_true", help='w/o train the model') # w/o means without
+parser.add_argument('--wo_inference', action="store_true", help='w/o inference to scanpath results?')
+parser.add_argument('--wo_score', action="store_true", help='w/o score scanpath results?')
 parser.add_argument('--options', nargs='+', action=DictAction, help='arguments in dict')
 
 args = parser.parse_args()
@@ -97,19 +97,20 @@ evaluation = Evaluation(feature_extrator=feature_extrator, work_dir=cfg.work_dir
 
 if not cfg.wo_train:
     best_epoch = train.train_epochs(feature_extrator, model, optimizer, lr_scheduler=cfg.lr_scheduler, evaluation=evaluation)
-    # 加载训练过程中最优模型
+    # load the best performance model
     epoch_start, model, optimizer = loadCheckpoint(model=model, optimizer=optimizer, epoch=best_epoch, work_dir=cfg.work_dir)
 else:
     best_epoch = epoch_start
 
 if not cfg.wo_inference:
-    # 推理模型结果
+    # to infer the results on different dataset.
     evaluation.validation(model, best_epoch, dataset_name='osie', save=True, )
     evaluation.validation(model, best_epoch, dataset_name='salicon', save=True, )
     evaluation.validation(model, best_epoch, dataset_name='mit', save=True, )
     evaluation.validation(model, best_epoch, dataset_name='isun', save=True, )
 
 if not cfg.wo_score:
+    # to record the score
     resultsToScores(os.path.join(cfg.work_dir, 'seq_results_best_model/'), epoch=best_epoch)
 
 

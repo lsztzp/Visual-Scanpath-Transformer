@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def ScanMatch(test_seq, gt_seq, ScanMatchInfo_):
     if len(test_seq) == 0 or len(gt_seq) == 0:
         score = 0
