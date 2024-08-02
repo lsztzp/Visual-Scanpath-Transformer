@@ -114,9 +114,6 @@ if not cfg.wo_score:
     resultsToScores(os.path.join(cfg.work_dir, 'seq_results_best_model/'), epoch=best_epoch)
 
 
-#软件测试实验
-print("soft testing!")
-
 
 
 
