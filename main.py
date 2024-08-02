@@ -115,7 +115,7 @@ if not cfg.wo_score:
 
 
 #软件测试实验
-print("done")
+print("soft-testing!")
 
 
 
