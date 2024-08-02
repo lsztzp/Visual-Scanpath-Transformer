@@ -4,25 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e3ae83e3-a701-4d81-8f6d-c5a608f8e592" name="Changes" comment="">
+    <list default="true" id="e3ae83e3-a701-4d81-8f6d-c5a608f8e592" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-Datasets/in_images/sun_aaaatuxrpwrbvtuv.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-Datasets/out_images/sun_aaaatuxrpwrbvtuv.pck" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visual-Scanpath-Transformer" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inference.py" beforeDir="false" afterPath="$PROJECT_DIR$/inference.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metrics/python/ScanMatch.py" beforeDir="false" afterPath="$PROJECT_DIR$/metrics/python/ScanMatch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metrics/score_human.py" beforeDir="false" afterPath="$PROJECT_DIR$/metrics/score_human.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metrics/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/metrics/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_weights/best_model_and_config/config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model_weights/best_model_and_config/ep85.pth.tar" beforeDir="false" afterPath="$PROJECT_DIR$/model_weights/ep85.pth.tar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/vgg.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/vgg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/results_to_all_scores.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/results_to_all_scores.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +45,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/16663/Desktop/Repositories/github/scanpath360",
+    "last_opened_file_path": "C:/Users/16663/Desktop/Repositories/github/visual-scanpath-transformer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -339,11 +324,26 @@
       <workItem from="1713765768444" duration="5547000" />
       <workItem from="1714274389523" duration="25000" />
       <workItem from="1721721949236" duration="10052000" />
+      <workItem from="1721733097212" duration="2451000" />
+      <workItem from="1722564241217" duration="237000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1721784421382</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721784421382</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
